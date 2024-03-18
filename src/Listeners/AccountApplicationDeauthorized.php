@@ -27,7 +27,7 @@ class AccountApplicationDeauthorized implements ShouldQueue
         /** @var ?Account $account */
         $account = Event::constructFrom($event->payload)->data?->object; // @phpstan-ignore-line
 
-        if (!$account) {
+        if (! $account) {
             return;
         }
 
