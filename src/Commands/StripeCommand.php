@@ -1,12 +1,12 @@
 <?php
 
-namespace VendorName\Skeleton\Commands;
+namespace Finller\Stripe\Commands;
 
 use Illuminate\Console\Command;
 
-class SkeletonCommand extends Command
+class StripeCommand extends Command
 {
-    public $signature = 'skeleton';
+    public $signature = 'laravel-stripe';
 
     public $description = 'My command';
 
