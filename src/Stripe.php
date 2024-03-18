@@ -7,12 +7,9 @@ class Stripe
     public \Stripe\StripeClient $client;
 
     public function __construct(
-        ?string $key = null,
+        string $key,
         ?string $version = null
     ) {
-        $key ??= config('stripe.key');
-        $version ??= config('stripe.version');
-
         $this->client = new \Stripe\StripeClient([
             'api_key' => $key,
             'stripe_version' => $version,

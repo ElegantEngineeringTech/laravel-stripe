@@ -7,8 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class StripeAccountDoesntExistExecption extends Exception
 {
-    public static function make(Model $model, string $action): static
+    public static function make(Model $model, string $action): self
     {
-        return new static('['.get_class($model).':'.$model->getKey()."] Can't {$action}, Stripe account does not exist");
+        return new self('[' . get_class($model) . ':' . $model->getKey() . "] Can't {$action}, Stripe account does not exist");
     }
 }

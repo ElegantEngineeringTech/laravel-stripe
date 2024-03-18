@@ -18,4 +18,16 @@ class StripeServiceProvider extends PackageServiceProvider
             ->name('laravel-stripe')
             ->hasConfigFile();
     }
+
+    public function registeringPackage()
+    {
+        $this->app->bind(Stripe::class, function () {
+            return new Stripe(
+                config('stripe.key'),
+                config('stripe.version'),
+            );
+        });
+
+        $this->app->register(EventServiceProvider::class);
+    }
 }

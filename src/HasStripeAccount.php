@@ -44,7 +44,14 @@ trait HasStripeAccount
             throw new Exception('['.get_class($this).':'.$this->getKey()."] Can't create, Stripe account already exists ({$this->stripe_account_id})");
         }
 
-        $account = $this->stripe()->accounts->create($params, $opts);
+        $account = $this->stripe()->accounts->create([
+            ...$params,
+            'metadata' => [
+                ...data_get($params, 'metadata', []),
+                'model_type' => get_class($this),
+                'model_id' => $this->getKey(),
+            ],
+        ], $opts);
 
         $this->syncWithStripeAccount($account);
 
