@@ -17,10 +17,10 @@ class CreateStripeWebhooksCommand extends Command
 
         foreach (config('stripe.webhooks') as $webhooks) {
             $stripe->webhookEndpoints->create(array_filter([
-                'enabled_events' => data_get($webhooks, "enabled_events"),
-                'url' => route(data_get($webhooks, "url")),
-                'api_version' => data_get($webhooks, "api_version"),
-                'connect' => data_get($webhooks, "connect"),
+                'enabled_events' => data_get($webhooks, 'enabled_events'),
+                'url' => route(data_get($webhooks, 'url')),
+                'api_version' => data_get($webhooks, 'api_version'),
+                'connect' => data_get($webhooks, 'connect'),
             ]));
         }
 

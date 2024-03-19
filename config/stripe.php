@@ -15,13 +15,13 @@ return [
 
     'webhooks' => [
         [
-            'url' => "/webhooks/stripe",
+            'url' => '/webhooks/stripe',
             'connect' => false,
-            "enabled_events" => [
+            'enabled_events' => [
                 'account.updated',
-                'account.application.deauthorized'
-            ]
-        ]
+                'account.application.deauthorized',
+            ],
+        ],
     ],
 
 ];
