@@ -8,12 +8,12 @@ return new class extends Migration
 {
     public function up()
     {
-        Schema::create(config('stripe.tables.accounts'), function (Blueprint $table) {
-            $table->string('stripe_account_id');
+        Schema::table(config('stripe.tables.accounts'), function (Blueprint $table) {
+            $table->string('stripe_account_id')->nullable();
         });
 
-        Schema::create(config('stripe.tables.customers'), function (Blueprint $table) {
-            $table->string('stripe_customer_id');
+        Schema::table(config('stripe.tables.customers'), function (Blueprint $table) {
+            $table->string('stripe_customer_id')->nullable();
         });
     }
 

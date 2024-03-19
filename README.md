@@ -18,7 +18,7 @@ composer require finller/laravel-stripe
 You should publish and run the migrations with:
 
 ```bash
-php artisan vendor:publish --tag="laravel-stripe-migrations"
+php artisan vendor:publish --tag="stripe-migrations"
 php artisan vendor:publish --provider="Spatie\WebhookClient\WebhookClientServiceProvider" --tag="webhook-client-migrations"
 php artisan migrate
 ```
@@ -26,7 +26,7 @@ php artisan migrate
 You can publish the config file with:
 
 ```bash
-php artisan vendor:publish --tag="laravel-stripe-config"
+php artisan vendor:publish --tag="stripe-config"
 ```
 
 This is the contents of the published config file:

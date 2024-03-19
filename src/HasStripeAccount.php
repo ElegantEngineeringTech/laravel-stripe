@@ -1,7 +1,8 @@
 <?php
 
+namespace Finller\Stripe;
+
 use Finller\Stripe\Facades\Stripe;
-use Finller\Stripe\StripeAccountDoesntExistExecption;
 use Illuminate\Support\Facades\Cache;
 
 /**
