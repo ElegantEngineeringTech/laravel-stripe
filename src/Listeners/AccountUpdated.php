@@ -47,9 +47,11 @@ class AccountUpdated implements ShouldQueue
 
         $model->syncWithStripeAccount($account); // @phpstan-ignore-line
 
-        Cache::forever(
-            $model->stripeAccountCacheKey(), // @phpstan-ignore-line
-            $account
-        );
+        if ($model->shouldCacheStripeCustomer()) { // @phpstan-ignore-line
+            Cache::forever(
+                $model->stripeAccountCacheKey(), // @phpstan-ignore-line
+                $account
+            );
+        }
     }
 }

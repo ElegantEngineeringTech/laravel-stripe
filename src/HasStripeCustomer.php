@@ -130,6 +130,21 @@ trait HasStripeCustomer
         return $customer;
     }
 
+    public function checkoutStripeCustomer(?array $params = null, $opts = null): ?\Stripe\Checkout\Session
+    {
+        if (! $this->stripe_customer_id) {
+            throw StripeCustomerDoesntExistExecption::make($this, 'checkout');
+        }
+
+        return $this->stripe()->checkout->sessions->create(
+            [
+                ...$params,
+                'customer' => $this->stripe_customer_id,
+            ],
+            $opts
+        );
+    }
+
     public function syncWithStripeCustomer(?\Stripe\Customer $customer): static
     {
         $this->stripe_customer_id = $customer?->id;

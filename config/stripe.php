@@ -28,6 +28,8 @@ return [
             'url' => '/webhooks/stripe',
             'connect' => false,
             'enabled_events' => [
+                'customer.updated',
+                // Stripe Connect webhooks
                 'account.updated',
                 'account.application.deauthorized',
             ],
