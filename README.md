@@ -46,15 +46,11 @@ php artisan vendor:publish --tag="laravel-stripe-views"
 
 ## Configure Webhooks
 
-### Configure Webhooks on Stripe Dashboard
-
-This package rely on
+### Configure Webhooks on Stripe
 
 This package rely on the great `spatie/laravel-stripe-webhooks` package.
 
 You must [follow their documentation](https://github.com/spatie/laravel-stripe-webhooks) to setup webhooks.
-
-You can use `spatie/laravel-stripe-webhooks` freely for your custom logic, there will be no conflicts with this package.
 
 ## Testing
 

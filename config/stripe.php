@@ -3,8 +3,14 @@
 // config for Finller/Stripe
 return [
 
-    'table' => [
-        'account' => 'users',
+    'tables' => [
+        'accounts' => 'users',
+        'customers' => 'users',
+    ],
+
+    'cache' => [
+        'accounts' => true,
+        'customers' => false,
     ],
 
     'key' => env('STRIPE_KEY'),

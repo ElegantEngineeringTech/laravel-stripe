@@ -16,7 +16,8 @@ class StripeServiceProvider extends PackageServiceProvider
          */
         $package
             ->name('laravel-stripe')
-            ->hasConfigFile();
+            ->hasConfigFile()
+            ->hasMigration('add_stripe_ids_to_models_tables');
     }
 
     public function registeringPackage()

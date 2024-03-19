@@ -19,6 +19,11 @@ trait HasStripeAccount
         return (bool) $this->stripe_account_id;
     }
 
+    public function shouldCacheStripeAccount(): bool
+    {
+        return (bool) config('stripe.cache.accounts', false);
+    }
+
     public function stripeAccountCacheKey(): string
     {
         return get_class($this).':'.$this->getKey().':'.'stripe:account';
@@ -55,27 +60,38 @@ trait HasStripeAccount
 
         $this->syncWithStripeAccount($account);
 
-        Cache::forever(
-            $this->stripeAccountCacheKey(),
-            $account
-        );
+        if ($this->shouldCacheStripeAccount()) {
+            Cache::forever(
+                $this->stripeAccountCacheKey(),
+                $account
+            );
+        }
 
         return $account;
     }
 
-    public function getStripeAccount($params = [], $opts = null): ?\Stripe\Account
+    public function getStripeAccount(?array $params = [], $opts = null): ?\Stripe\Account
     {
         if (! $this->stripe_account_id) {
             return null;
         }
 
-        return Cache::rememberForever($this->stripeAccountCacheKey(), function () use ($params, $opts) {
-            $account = $this->stripe()->accounts->retrieve($this->stripe_account_id, $params, $opts);
+        if ($this->shouldCacheStripeAccount()) {
+            return Cache::rememberForever(
+                $this->stripeAccountCacheKey(),
+                fn () => $this->getFreshStripeAccount($params, $opts)
+            );
+        }
 
-            $this->syncWithStripeAccount($account);
+        return $this->getFreshStripeAccount($params, $opts);
+    }
 
-            return $account;
-        });
+    public function getFreshStripeAccount(?array $params = [], $opts = null): ?\Stripe\Account
+    {
+        $account = $this->stripe()->accounts->retrieve($this->stripe_account_id, $params, $opts);
+        $this->syncWithStripeAccount($account);
+
+        return $account;
     }
 
     public function updateStripeAccount(?array $params = null, $opts = null): \Stripe\Account
@@ -88,10 +104,12 @@ trait HasStripeAccount
 
         $this->syncWithStripeAccount($account);
 
-        Cache::forever(
-            $this->stripeAccountCacheKey(),
-            $account
-        );
+        if ($this->shouldCacheStripeAccount()) {
+            Cache::forever(
+                $this->stripeAccountCacheKey(),
+                $account
+            );
+        }
 
         return $account;
     }
