@@ -13,4 +13,15 @@ return [
 
     'version' => env('STRIPE_VERSION'),
 
+    'webhooks' => [
+        [
+            'url' => "/webhooks/stripe",
+            'connect' => false,
+            "enabled_events" => [
+                'account.updated',
+                'account.application.deauthorized'
+            ]
+        ]
+    ],
+
 ];

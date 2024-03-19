@@ -15,10 +15,11 @@ You can install the package via composer:
 composer require finller/laravel-stripe
 ```
 
-You can publish and run the migrations with:
+You should publish and run the migrations with:
 
 ```bash
 php artisan vendor:publish --tag="laravel-stripe-migrations"
+php artisan vendor:publish --provider="Spatie\WebhookClient\WebhookClientServiceProvider" --tag="webhook-client-migrations"
 php artisan migrate
 ```
 
@@ -43,38 +44,17 @@ php artisan vendor:publish --tag="laravel-stripe-views"
 
 ## Prepare your model
 
-First of all you have to add the column `stripe_account_id` to your Model (User or any other one).
+## Configure Webhooks
 
-Here is an exemple of a migration for the table `users`:
+### Configure Webhooks on Stripe Dashboard
 
-```php
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
+This package rely on
 
-return new class extends Migration
-{
-    /**
-     * Run the migrations.
-     */
-    public function up(): void
-    {
-        Schema::table('users', function (Blueprint $table) {
-            $table->string('stripe_account_id');
-        });
-    }
+This package rely on the great `spatie/laravel-stripe-webhooks` package.
 
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
-    {
-        Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('stripe_account_id');
-        });
-    }
-};
-```
+You must [follow their documentation](https://github.com/spatie/laravel-stripe-webhooks) to setup webhooks.
+
+You can use `spatie/laravel-stripe-webhooks` freely for your custom logic, there will be no conflicts with this package.
 
 ## Testing
 
