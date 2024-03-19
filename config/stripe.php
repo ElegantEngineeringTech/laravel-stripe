@@ -13,6 +13,10 @@ return [
 
     'version' => env('STRIPE_VERSION'),
 
+    /**
+     * This is only used for the CreateStripeWebhooksCommand
+     * You can add more webhooks directly from your Stripe Dashboard
+     */
     'webhooks' => [
         [
             'url' => '/webhooks/stripe',
