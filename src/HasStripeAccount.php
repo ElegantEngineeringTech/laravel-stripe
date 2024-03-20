@@ -59,7 +59,7 @@ trait HasStripeAccount
             ],
         ], $opts);
 
-        $this->syncWithStripeAccount($account);
+        $this->importFromStripeAccount($account);
 
         if ($this->shouldCacheStripeAccount()) {
             Cache::forever(
@@ -90,7 +90,7 @@ trait HasStripeAccount
     public function getFreshStripeAccount(?array $params = [], $opts = null): ?\Stripe\Account
     {
         $account = $this->stripe()->accounts->retrieve($this->stripe_account_id, $params, $opts);
-        $this->syncWithStripeAccount($account);
+        $this->importFromStripeAccount($account);
 
         return $account;
     }
@@ -103,7 +103,7 @@ trait HasStripeAccount
 
         $account = $this->stripe()->accounts->update($this->stripe_account_id, $params, $opts);
 
-        $this->syncWithStripeAccount($account);
+        $this->importFromStripeAccount($account);
 
         if ($this->shouldCacheStripeAccount()) {
             Cache::forever(
@@ -141,7 +141,7 @@ trait HasStripeAccount
 
         $account = $this->stripe()->accounts->delete($this->stripe_account_id, $params, $opts);
 
-        $this->syncWithStripeAccount(null);
+        $this->importFromStripeAccount(null);
 
         $this->forgetStripeAccount();
 
@@ -184,7 +184,7 @@ trait HasStripeAccount
         ]);
     }
 
-    public function syncWithStripeAccount(?\Stripe\Account $account): static
+    public function importFromStripeAccount(?\Stripe\Account $account): static
     {
         $this->stripe_account_id = $account?->id;
 

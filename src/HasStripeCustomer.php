@@ -59,7 +59,7 @@ trait HasStripeCustomer
             ],
         ], $opts);
 
-        $this->syncWithStripeCustomer($customer);
+        $this->importFromStripeCustomer($customer);
 
         if ($this->shouldCacheStripeCustomer()) {
             Cache::forever(
@@ -90,7 +90,7 @@ trait HasStripeCustomer
     public function getFreshStripeCustomer(?array $params = [], $opts = null): ?\Stripe\Customer
     {
         $customer = $this->stripe()->customers->retrieve($this->stripe_customer_id, $params, $opts);
-        $this->syncWithStripeCustomer($customer);
+        $this->importFromStripeCustomer($customer);
 
         return $customer;
     }
@@ -103,7 +103,7 @@ trait HasStripeCustomer
 
         $customer = $this->stripe()->customers->update($this->stripe_customer_id, $params, $opts);
 
-        $this->syncWithStripeCustomer($customer);
+        $this->importFromStripeCustomer($customer);
 
         if ($this->shouldCacheStripeCustomer()) {
             Cache::forever(
@@ -123,7 +123,7 @@ trait HasStripeCustomer
 
         $customer = $this->stripe()->customers->delete($this->stripe_customer_id, $params, $opts);
 
-        $this->syncWithStripeCustomer(null);
+        $this->importFromStripeCustomer(null);
 
         $this->forgetStripeCustomer();
 
@@ -158,7 +158,7 @@ trait HasStripeCustomer
         ], $opts);
     }
 
-    public function syncWithStripeCustomer(?\Stripe\Customer $customer): static
+    public function importFromStripeCustomer(?\Stripe\Customer $customer): static
     {
         $this->stripe_customer_id = $customer?->id;
 

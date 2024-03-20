@@ -45,7 +45,7 @@ class AccountUpdated implements ShouldQueue
             throw new Exception("[{$model_type}:{$model_id}] Conflict between Stripe account ID and Stripe account metadata: {$model_stripe_account_id} !== {$account->id}", 500);
         }
 
-        $model->syncWithStripeAccount($account); // @phpstan-ignore-line
+        $model->importFromStripeAccount($account); // @phpstan-ignore-line
 
         if ($model->shouldCacheStripeCustomer()) { // @phpstan-ignore-line
             Cache::forever(

@@ -44,7 +44,7 @@ class CustomerUpdated implements ShouldQueue
             throw new Exception("[{$model_type}:{$model_id}] Conflict between Stripe customer ID and Stripe customer metadata: {$model_stripe_customer_id} !== {$customer->id}", 500);
         }
 
-        $model->syncWithStripeCustomer($customer); // @phpstan-ignore-line
+        $model->importFromStripeCustomer($customer); // @phpstan-ignore-line
 
         if ($model->shouldCacheStripeCustomer()) { // @phpstan-ignore-line
             Cache::forever(
