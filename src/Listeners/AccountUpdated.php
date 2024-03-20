@@ -6,7 +6,6 @@ use Finller\Stripe\Traits\ListenAccountEvents;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Facades\Cache;
 use Spatie\WebhookClient\Models\WebhookCall;
-use Stripe\Account;
 
 /**
  * @see https://docs.stripe.com/connect/webhooks
@@ -35,7 +34,7 @@ class AccountUpdated implements ShouldQueue
 
         $model->importFromStripeAccount($account); // @phpstan-ignore-line
 
-        if ($model->shouldCacheStripeCustomer()) { // @phpstan-ignore-line
+        if ($model->shouldCacheStripeAccount()) { // @phpstan-ignore-line
             Cache::forever(
                 $model->stripeAccountCacheKey(), // @phpstan-ignore-line
                 $account
