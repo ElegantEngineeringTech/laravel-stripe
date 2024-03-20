@@ -2,6 +2,7 @@
 
 namespace Finller\Stripe;
 
+use Finller\Stripe\Commands\CreateStripeWebhooksCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
@@ -17,6 +18,7 @@ class StripeServiceProvider extends PackageServiceProvider
         $package
             ->name('laravel-stripe')
             ->hasConfigFile()
+            ->hasCommand(CreateStripeWebhooksCommand::class)
             ->hasMigration('add_stripe_ids_to_models_tables');
     }
 

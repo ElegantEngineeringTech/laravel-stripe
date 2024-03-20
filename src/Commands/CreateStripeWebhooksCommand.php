@@ -25,16 +25,23 @@ class CreateStripeWebhooksCommand extends Command
         /** @var array $webhooks */
         $webhooks = config('stripe.webhooks');
 
-        foreach ($webhooks as $webhooks) {
-            $stripe->webhookEndpoints->create(array_filter([
-                'enabled_events' => data_get($webhooks, 'enabled_events'),
-                'url' => route(data_get($webhooks, 'url')),
-                'api_version' => data_get($webhooks, 'api_version', config('stripe.version')),
-                'connect' => data_get($webhooks, 'connect'),
+        foreach ($webhooks as $webhook) {
+            $stripeWebhook = $stripe->webhookEndpoints->create(array_filter([
+                'enabled_events' => data_get($webhook, 'enabled_events'),
+                'url' => route(data_get($webhook, 'url')),
+                'api_version' => data_get($webhook, 'api_version', config('stripe.version')),
+                'connect' => data_get($webhook, 'connect'),
+                'description' => data_get($webhook, 'description', 'Created with finller/laravel-stripe'),
             ]));
+
+            $stripe->webhookEndpoints->update($stripeWebhook->id, [
+                'disabled' => true,
+            ]);
         }
 
-        $this->info('The Stripe webhook was created successfully. Retrieve the webhook secret in your Stripe dashboard and define it as an environment variable.');
+        $this->info('The Stripe webhook was created successfully, next:');
+        $this->line('1. Retrieve the webhook secret in your Stripe dashboard and define it as an environment variable.');
+        $this->line('2. Enable the webhooks in your Stripe dashboard');
 
         return self::SUCCESS;
     }
