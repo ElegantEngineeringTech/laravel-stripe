@@ -24,7 +24,7 @@ class StripeServiceProvider extends PackageServiceProvider
     {
         $this->app->bind(Stripe::class, function () {
             return new Stripe(
-                config('stripe.key'),
+                config('stripe.secret'),
                 config('stripe.version'),
             );
         });
