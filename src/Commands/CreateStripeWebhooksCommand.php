@@ -15,13 +15,17 @@ class CreateStripeWebhooksCommand extends Command
         'account.updated',
         'account.application.deauthorized',
         'customer.updated',
+        'customer.deleted',
     ];
 
     public function handle(): int
     {
         $stripe = Stripe::client();
 
-        foreach (config('stripe.webhooks') as $webhooks) {
+        /** @var array $webhooks */
+        $webhooks = config('stripe.webhooks');
+
+        foreach ($webhooks as $webhooks) {
             $stripe->webhookEndpoints->create(array_filter([
                 'enabled_events' => data_get($webhooks, 'enabled_events'),
                 'url' => route(data_get($webhooks, 'url')),

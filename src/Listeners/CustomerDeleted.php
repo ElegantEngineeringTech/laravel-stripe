@@ -4,15 +4,14 @@ namespace Finller\Stripe\Listeners;
 
 use Finller\Stripe\Traits\ListenCustomerEvents;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Support\Facades\Cache;
 use Spatie\WebhookClient\Models\WebhookCall;
 
 /**
  * @see https://docs.stripe.com/connect/webhooks
  *
- * Occurs whenever any property of a customer changes.
+ * Occurs whenever a customer is deleted.
  */
-class CustomerUpdated implements ShouldQueue
+class CustomerDeleted implements ShouldQueue
 {
     use ListenCustomerEvents;
 
@@ -35,13 +34,6 @@ class CustomerUpdated implements ShouldQueue
             return;
         }
 
-        $model->importFromStripeCustomer($customer); // @phpstan-ignore-line
-
-        if ($model->shouldCacheStripeCustomer()) { // @phpstan-ignore-line
-            Cache::forever(
-                $model->stripeCustomerCacheKey(), // @phpstan-ignore-line
-                $customer
-            );
-        }
+        $model->importFromStripeCustomer(null); // @phpstan-ignore-line
     }
 }

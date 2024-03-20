@@ -20,7 +20,7 @@ class StripeServiceProvider extends PackageServiceProvider
             ->hasMigration('add_stripe_ids_to_models_tables');
     }
 
-    public function registeringPackage()
+    public function registeringPackage(): void
     {
         $this->app->bind(Stripe::class, function () {
             return new Stripe(
