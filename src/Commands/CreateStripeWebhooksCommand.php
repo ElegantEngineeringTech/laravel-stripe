@@ -11,6 +11,12 @@ class CreateStripeWebhooksCommand extends Command
 
     public $description = 'Create Stripe webhooks';
 
+    public const DEFAULT_WEBHOOKS_EVENTS = [
+        'account.updated',
+        'account.application.deauthorized',
+        'customer.updated',
+    ];
+
     public function handle(): int
     {
         $stripe = Stripe::client();
@@ -19,7 +25,7 @@ class CreateStripeWebhooksCommand extends Command
             $stripe->webhookEndpoints->create(array_filter([
                 'enabled_events' => data_get($webhooks, 'enabled_events'),
                 'url' => route(data_get($webhooks, 'url')),
-                'api_version' => data_get($webhooks, 'api_version'),
+                'api_version' => data_get($webhooks, 'api_version', config('stripe.version')),
                 'connect' => data_get($webhooks, 'connect'),
             ]));
         }

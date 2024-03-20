@@ -1,6 +1,9 @@
 <?php
 
 // config for Finller/Stripe
+
+use Finller\Stripe\Commands\CreateStripeWebhooksCommand;
+
 return [
 
     'tables' => [
@@ -17,7 +20,7 @@ return [
 
     'secret' => env('STRIPE_SECRET'),
 
-    'version' => env('STRIPE_VERSION'),
+    'version' => env('STRIPE_VERSION', '2023-10-16'),
 
     /**
      * This is only used for the CreateStripeWebhooksCommand
@@ -28,10 +31,7 @@ return [
             'url' => '/webhooks/stripe',
             'connect' => false,
             'enabled_events' => [
-                'customer.updated',
-                // Stripe Connect webhooks
-                'account.updated',
-                'account.application.deauthorized',
+                ...CreateStripeWebhooksCommand::DEFAULT_WEBHOOKS_EVENTS,
             ],
         ],
     ],
