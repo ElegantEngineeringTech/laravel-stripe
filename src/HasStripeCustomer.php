@@ -145,6 +145,19 @@ trait HasStripeCustomer
         );
     }
 
+    public function createStripeBillingPortalSesssion(array $params = [], $opts = null): \Stripe\BillingPortal\Session
+    {
+        if (! $this->stripe_customer_id) {
+            throw StripeCustomerDoesntExistExecption::make($this, 'create billing portal');
+        }
+
+        return $this->stripe()->billingPortal->sessions->create([
+            'return_url' => url('/'),
+            ...$params,
+            'customer' => $this->stripe_customer_id,
+        ], $opts);
+    }
+
     public function syncWithStripeCustomer(?\Stripe\Customer $customer): static
     {
         $this->stripe_customer_id = $customer?->id;
