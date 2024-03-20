@@ -28,7 +28,7 @@ class CreateStripeWebhooksCommand extends Command
         foreach ($webhooks as $webhook) {
             $stripeWebhook = $stripe->webhookEndpoints->create(array_filter([
                 'enabled_events' => data_get($webhook, 'enabled_events'),
-                'url' => route(data_get($webhook, 'url')),
+                'url' => url(data_get($webhook, 'url')),
                 'api_version' => data_get($webhook, 'api_version', config('stripe.version')),
                 'connect' => data_get($webhook, 'connect'),
                 'description' => data_get($webhook, 'description', 'Created with finller/laravel-stripe'),
