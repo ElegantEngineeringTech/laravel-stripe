@@ -42,6 +42,7 @@ class CreateStripeWebhooksCommand extends Command
         $this->info('The Stripe webhook was created successfully, next:');
         $this->line('1. Retrieve the webhook secret in your Stripe dashboard and define it as an environment variable.');
         $this->line('2. Enable the webhooks in your Stripe dashboard');
+        $this->line('3. If you are migrating the Stripe api version, delete your old webhooks endpoints in your Stripe dashboard');
 
         return self::SUCCESS;
     }
