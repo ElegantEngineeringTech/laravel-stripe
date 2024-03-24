@@ -5,7 +5,6 @@ namespace Finller\Stripe\Listeners;
 use Finller\Stripe\Traits\ListenAccountApplicationEvents;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Spatie\WebhookClient\Models\WebhookCall;
-use Stripe\Account;
 
 /**
  * @see https://docs.stripe.com/connect/webhooks
@@ -26,7 +25,7 @@ class AccountApplicationDeauthorized implements ShouldQueue
     {
         $model = $this->getModelFromEvent($event);
 
-        if (! $model) {
+        if (!$model) {
             return;
         }
 

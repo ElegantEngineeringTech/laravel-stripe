@@ -26,7 +26,7 @@ trait ListenAccountApplicationEvents
     {
         $stripeEvent = $this->getStripeEvent($event);
 
-        if (! $stripeEvent?->account) {
+        if (!$stripeEvent?->account) {
             return null;
         }
 
