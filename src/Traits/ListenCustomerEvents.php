@@ -7,10 +7,14 @@ use Illuminate\Database\Eloquent\Model;
 use Spatie\WebhookClient\Models\WebhookCall;
 use Stripe\Customer;
 use Stripe\Event;
+use Stripe\StripeObject;
 
 trait ListenCustomerEvents
 {
-    public function getStripeCustomerFromEvent(WebhookCall $event): ?Customer
+    /**
+     * @return ?Customer
+     */
+    public function getStripeCustomerFromEvent(WebhookCall $event): ?StripeObject
     {
         return Event::constructFrom($event->payload)->data?->object; // @phpstan-ignore-line
     }
