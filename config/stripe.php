@@ -3,12 +3,18 @@
 // config for Finller/Stripe
 
 use Finller\Stripe\Commands\CreateStripeWebhooksCommand;
+use Finller\Stripe\ModelRepository;
 
 return [
 
-    'tables' => [
-        'accounts' => 'users',
-        'customers' => 'users',
+    'models' => [
+        'accounts' => [
+            \App\Models\User::class,
+        ],
+        'customers' => [
+            \App\Models\User::class,
+        ],
+        'repository' => ModelRepository::class,
     ],
 
     'cache' => [

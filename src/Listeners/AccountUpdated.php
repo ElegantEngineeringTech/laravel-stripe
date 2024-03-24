@@ -32,6 +32,10 @@ class AccountUpdated implements ShouldQueue
 
         $model = $this->getModelFromAccount($account);
 
+        if (! $model) {
+            return;
+        }
+
         $model->importFromStripeAccount($account); // @phpstan-ignore-line
 
         if ($model->shouldCacheStripeAccount()) { // @phpstan-ignore-line

@@ -5,10 +5,10 @@ namespace Finller\Stripe\Traits;
 use Finller\Stripe\ModelRepository;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\WebhookClient\Models\WebhookCall;
-use Stripe\Account;
+use Stripe\Application;
 use Stripe\Event;
 
-trait ListenAccountEvents
+trait ListenAccountApplicationEvents
 {
     public function getStripeEvent(WebhookCall $event): ?Event
     {
@@ -17,13 +17,19 @@ trait ListenAccountEvents
             null;
     }
 
-    public function getStripeAccountFromEvent(WebhookCall $event): ?Account
+    public function getStripeApplicationFromEvent(WebhookCall $event): ?Application
     {
         return $this->getStripeEvent($event)?->data?->object; // @phpstan-ignore-line
     }
 
-    public function getModelFromAccount(Account $account): ?Model
+    public function getModelFromEvent(WebhookCall $event): ?Model
     {
-        return ModelRepository::findAccountFromStripeObject($account);
+        $stripeEvent = $this->getStripeEvent($event);
+
+        if (! $stripeEvent?->account) {
+            return null;
+        }
+
+        return ModelRepository::findAccount($stripeEvent->account);
     }
 }

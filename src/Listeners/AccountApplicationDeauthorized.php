@@ -2,7 +2,7 @@
 
 namespace Finller\Stripe\Listeners;
 
-use Finller\Stripe\Traits\ListenAccountEvents;
+use Finller\Stripe\Traits\ListenAccountApplicationEvents;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Spatie\WebhookClient\Models\WebhookCall;
 use Stripe\Account;
@@ -15,7 +15,7 @@ use Stripe\Account;
  */
 class AccountApplicationDeauthorized implements ShouldQueue
 {
-    use ListenAccountEvents;
+    use ListenAccountApplicationEvents;
 
     public function __construct()
     {
@@ -24,15 +24,15 @@ class AccountApplicationDeauthorized implements ShouldQueue
 
     public function handle(WebhookCall $event): void
     {
-        $account = $this->getStripeAccountFromEvent($event);
+        $model = $this->getModelFromEvent($event);
 
-        if (! $account) {
+        if (! $model) {
             return;
         }
 
-        $model = $this->getModelFromAccount($account);
-
-        $model->importFromStripeAccount(null); // @phpstan-ignore-line
-        $model->forgetStripeAccount(); // @phpstan-ignore-line
+        // @phpstan-ignore-next-line
+        $model
+            ->importFromStripeAccount(null)
+            ->forgetStripeAccount();
     }
 }

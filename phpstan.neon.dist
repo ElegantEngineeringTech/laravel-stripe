@@ -12,3 +12,7 @@ parameters:
     checkModelProperties: true
     checkMissingIterableValueType: false
 
+    ignoreErrors:
+        - 
+            message: '#Class App\\Models\\User not found.#'
+            path: config/*
