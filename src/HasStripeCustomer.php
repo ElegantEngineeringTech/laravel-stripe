@@ -89,6 +89,10 @@ trait HasStripeCustomer
 
     public function getFreshStripeCustomer(?array $params = [], $opts = null): ?\Stripe\Customer
     {
+        if (! $this->stripe_customer_id) {
+            return null;
+        }
+
         $customer = $this->stripe()->customers->retrieve($this->stripe_customer_id, $params, $opts);
         $this->importFromStripeCustomer($customer);
 

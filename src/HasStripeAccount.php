@@ -89,6 +89,10 @@ trait HasStripeAccount
 
     public function getFreshStripeAccount(?array $params = [], $opts = null): ?\Stripe\Account
     {
+        if (! $this->stripe_account_id) {
+            return null;
+        }
+
         $account = $this->stripe()->accounts->retrieve($this->stripe_account_id, $params, $opts);
         $this->importFromStripeAccount($account);
 
