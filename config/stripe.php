@@ -26,7 +26,7 @@ return [
 
     'secret' => env('STRIPE_SECRET'),
 
-    'version' => env('STRIPE_VERSION', '2023-10-16'),
+    'version' => env('STRIPE_VERSION', '2024-04-10'),
 
     /**
      * This is only used for the CreateStripeWebhooksCommand
