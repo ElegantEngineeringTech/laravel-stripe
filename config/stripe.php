@@ -1,9 +1,7 @@
 <?php
 
-// config for Finller/Stripe
-
-use Finller\Stripe\Commands\CreateStripeWebhooksCommand;
-use Finller\Stripe\ModelRepository;
+use Elegant\Stripe\Commands\CreateStripeWebhooksCommand;
+use Elegant\Stripe\ModelRepository;
 
 return [
 

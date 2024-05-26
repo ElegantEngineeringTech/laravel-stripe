@@ -1,11 +1,11 @@
 <?php
 
-namespace Finller\Stripe;
+namespace Elegant\Stripe;
 
-use Finller\Stripe\Listeners\AccountApplicationDeauthorized;
-use Finller\Stripe\Listeners\AccountUpdated;
-use Finller\Stripe\Listeners\CustomerDeleted;
-use Finller\Stripe\Listeners\CustomerUpdated;
+use Elegant\Stripe\Listeners\AccountApplicationDeauthorized;
+use Elegant\Stripe\Listeners\AccountUpdated;
+use Elegant\Stripe\Listeners\CustomerDeleted;
+use Elegant\Stripe\Listeners\CustomerUpdated;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
 class EventServiceProvider extends ServiceProvider

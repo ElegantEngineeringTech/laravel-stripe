@@ -1,11 +1,11 @@
 <?php
 
-namespace Finller\Stripe\Facades;
+namespace Elegant\Stripe\Facades;
 
 use Illuminate\Support\Facades\Facade;
 
 /**
- * @see \Finller\Stripe\Stripe
+ * @see \Elegant\Stripe\Stripe
  *
  * @method static \Stripe\StripeClient client()
  */
@@ -13,6 +13,6 @@ class Stripe extends Facade
 {
     protected static function getFacadeAccessor()
     {
-        return \Finller\Stripe\Stripe::class;
+        return \Elegant\Stripe\Stripe::class;
     }
 }

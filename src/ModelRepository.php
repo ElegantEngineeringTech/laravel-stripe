@@ -1,6 +1,6 @@
 <?php
 
-namespace Finller\Stripe;
+namespace Elegant\Stripe;
 
 use Exception;
 use Illuminate\Database\Eloquent\Model;

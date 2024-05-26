@@ -1,8 +1,8 @@
 <?php
 
-namespace Finller\Stripe;
+namespace Elegant\Stripe;
 
-use Finller\Stripe\Facades\Stripe;
+use Elegant\Stripe\Facades\Stripe;
 use Illuminate\Support\Facades\Cache;
 
 /**

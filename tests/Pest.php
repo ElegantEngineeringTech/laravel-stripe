@@ -1,5 +1,5 @@
 <?php
 
-use Finller\Stripe\Tests\TestCase;
+use Elegant\Stripe\Tests\TestCase;
 
 uses(TestCase::class)->in(__DIR__);

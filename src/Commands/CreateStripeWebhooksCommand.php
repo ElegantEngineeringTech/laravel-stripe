@@ -1,8 +1,8 @@
 <?php
 
-namespace Finller\Stripe\Commands;
+namespace Elegant\Stripe\Commands;
 
-use Finller\Stripe\Facades\Stripe;
+use Elegant\Stripe\Facades\Stripe;
 use Illuminate\Console\Command;
 
 class CreateStripeWebhooksCommand extends Command
@@ -31,7 +31,7 @@ class CreateStripeWebhooksCommand extends Command
                 'url' => url(data_get($webhook, 'url')),
                 'api_version' => data_get($webhook, 'api_version', config('stripe.version')),
                 'connect' => data_get($webhook, 'connect'),
-                'description' => data_get($webhook, 'description', 'Created with finller/laravel-stripe'),
+                'description' => data_get($webhook, 'description', 'Created with elegant/laravel-stripe'),
             ]));
 
             $stripe->webhookEndpoints->update($stripeWebhook->id, [

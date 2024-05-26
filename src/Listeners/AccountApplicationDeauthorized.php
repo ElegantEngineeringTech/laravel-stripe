@@ -1,8 +1,8 @@
 <?php
 
-namespace Finller\Stripe\Listeners;
+namespace Elegant\Stripe\Listeners;
 
-use Finller\Stripe\Traits\ListenAccountApplicationEvents;
+use Elegant\Stripe\Traits\ListenAccountApplicationEvents;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Spatie\WebhookClient\Models\WebhookCall;
 

@@ -1,12 +1,12 @@
 {
-    "name": "finller/laravel-stripe",
+    "name": "elegant/laravel-stripe",
     "description": "Stripe and Stripe Connect for your Laravel App",
     "keywords": [
-        "Finller",
+        "Elegant",
         "laravel",
         "laravel-stripe"
     ],
-    "homepage": "https://github.com/finller/laravel-stripe",
+    "homepage": "https://github.com/ElegantEngineeringTech/laravel-stripe",
     "license": "MIT",
     "authors": [
         {
@@ -36,13 +36,13 @@
     },
     "autoload": {
         "psr-4": {
-            "Finller\\Stripe\\": "src/",
-            "Finller\\Stripe\\Database\\Factories\\": "database/factories/"
+            "Elegant\\Stripe\\": "src/",
+            "Elegant\\Stripe\\Database\\Factories\\": "database/factories/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Finller\\Stripe\\Tests\\": "tests/",
+            "Elegant\\Stripe\\Tests\\": "tests/",
             "Workbench\\App\\": "workbench/app/"
         }
     },
@@ -74,10 +74,10 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Finller\\Stripe\\StripeServiceProvider"
+                "Elegant\\Stripe\\StripeServiceProvider"
             ],
             "aliases": {
-                "Stripe": "Finller\\Stripe\\Facades\\Stripe"
+                "Stripe": "Elegant\\Stripe\\Facades\\Stripe"
             }
         }
     },

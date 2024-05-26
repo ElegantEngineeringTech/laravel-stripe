@@ -1,8 +1,8 @@
 <?php
 
-namespace Finller\Stripe\Traits;
+namespace Elegant\Stripe\Traits;
 
-use Finller\Stripe\ModelRepository;
+use Elegant\Stripe\ModelRepository;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\WebhookClient\Models\WebhookCall;
 use Stripe\Account;
