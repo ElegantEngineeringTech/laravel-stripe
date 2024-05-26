@@ -25,13 +25,13 @@ class CustomerUpdated implements ShouldQueue
     {
         $customer = $this->getStripeCustomerFromEvent($event);
 
-        if (!$customer) {
+        if (! $customer) {
             return;
         }
 
         $model = $this->getModelFromCustomer($customer);
 
-        if (!$model) {
+        if (! $model) {
             return;
         }
 

@@ -25,7 +25,7 @@ class AccountApplicationDeauthorized implements ShouldQueue
     {
         $model = $this->getModelFromEvent($event);
 
-        if (!$model) {
+        if (! $model) {
             return;
         }
 

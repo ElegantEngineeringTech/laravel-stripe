@@ -26,13 +26,13 @@ class AccountUpdated implements ShouldQueue
     {
         $account = $this->getStripeAccountFromEvent($event);
 
-        if (!$account) {
+        if (! $account) {
             return;
         }
 
         $model = $this->getModelFromAccount($account);
 
-        if (!$model) {
+        if (! $model) {
             return;
         }
 
