@@ -1,9 +1,9 @@
 # Stripe and Stripe Connect for your Laravel App
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/elegant/laravel-stripe.svg?style=flat-square)](https://packagist.org/packages/elegant/laravel-stripe)
-[![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/elegant/laravel-stripe/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/ElegantEngineeringTech/laravel-stripe/actions?query=workflow%3Arun-tests+branch%3Amain)
-[![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/elegant/laravel-stripe/fix-php-code-style-issues.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/ElegantEngineeringTech/laravel-stripe/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amain)
-[![Total Downloads](https://img.shields.io/packagist/dt/elegant/laravel-stripe.svg?style=flat-square)](https://packagist.org/packages/elegant/laravel-stripe)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/elegantly/laravel-stripe.svg?style=flat-square)](https://packagist.org/packages/elegantly/laravel-stripe)
+[![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/ElegantEngineeringTech/laravel-stripe/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/ElegantEngineeringTech/laravel-stripe/actions?query=workflow%3Arun-tests+branch%3Amain)
+[![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/ElegantEngineeringTech/laravel-stripe/fix-php-code-style-issues.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/ElegantEngineeringTech/laravel-stripe/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amain)
+[![Total Downloads](https://img.shields.io/packagist/dt/elegantly/laravel-stripe.svg?style=flat-square)](https://packagist.org/packages/elegantly/laravel-stripe)
 
 A simple way to attach Stripe Customer and Account to your Model in Laravel.
 
@@ -15,7 +15,7 @@ A simple way to attach Stripe Customer and Account to your Model in Laravel.
 You can install the package via composer:
 
 ```bash
-composer require elegant/laravel-stripe
+composer require elegantly/laravel-stripe
 ```
 
 You should publish and run the migrations with:
@@ -35,8 +35,8 @@ php artisan vendor:publish --tag="stripe-config"
 This is the contents of the published config file:
 
 ```php
-use Elegant\Stripe\Commands\CreateStripeWebhooksCommand;
-use Elegant\Stripe\ModelRepository;
+use Elegantly\Stripe\Commands\CreateStripeWebhooksCommand;
+use Elegantly\Stripe\ModelRepository;
 
 return [
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Elegant\Stripe;
+namespace Elegantly\Stripe;
 
 class Stripe
 {

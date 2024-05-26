@@ -1,8 +1,8 @@
 <?php
 
-namespace Elegant\Stripe\Listeners;
+namespace Elegantly\Stripe\Listeners;
 
-use Elegant\Stripe\Traits\ListenCustomerEvents;
+use Elegantly\Stripe\Traits\ListenCustomerEvents;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Facades\Cache;
 use Spatie\WebhookClient\Models\WebhookCall;
@@ -25,13 +25,13 @@ class CustomerUpdated implements ShouldQueue
     {
         $customer = $this->getStripeCustomerFromEvent($event);
 
-        if (! $customer) {
+        if (!$customer) {
             return;
         }
 
         $model = $this->getModelFromCustomer($customer);
 
-        if (! $model) {
+        if (!$model) {
             return;
         }
 

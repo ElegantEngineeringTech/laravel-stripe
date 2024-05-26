@@ -1,11 +1,11 @@
 <?php
 
-namespace Elegant\Stripe;
+namespace Elegantly\Stripe;
 
-use Elegant\Stripe\Listeners\AccountApplicationDeauthorized;
-use Elegant\Stripe\Listeners\AccountUpdated;
-use Elegant\Stripe\Listeners\CustomerDeleted;
-use Elegant\Stripe\Listeners\CustomerUpdated;
+use Elegantly\Stripe\Listeners\AccountApplicationDeauthorized;
+use Elegantly\Stripe\Listeners\AccountUpdated;
+use Elegantly\Stripe\Listeners\CustomerDeleted;
+use Elegantly\Stripe\Listeners\CustomerUpdated;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
 class EventServiceProvider extends ServiceProvider

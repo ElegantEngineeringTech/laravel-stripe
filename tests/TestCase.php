@@ -1,8 +1,8 @@
 <?php
 
-namespace Elegant\Stripe\Tests;
+namespace Elegantly\Stripe\Tests;
 
-use Elegant\Stripe\StripeServiceProvider;
+use Elegantly\Stripe\StripeServiceProvider;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Orchestra\Testbench\TestCase as Orchestra;
 
@@ -13,7 +13,7 @@ class TestCase extends Orchestra
         parent::setUp();
 
         Factory::guessFactoryNamesUsing(
-            fn (string $modelName) => 'Elegant\\Stripe\\Database\\Factories\\'.class_basename($modelName).'Factory'
+            fn (string $modelName) => 'Elegantly\\Stripe\\Database\\Factories\\' . class_basename($modelName) . 'Factory'
         );
     }
 

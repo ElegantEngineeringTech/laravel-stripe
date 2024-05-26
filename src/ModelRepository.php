@@ -1,6 +1,6 @@
 <?php
 
-namespace Elegant\Stripe;
+namespace Elegantly\Stripe;
 
 use Exception;
 use Illuminate\Database\Eloquent\Model;
@@ -32,7 +32,7 @@ class ModelRepository
     {
         $model = static::findFromStripeObject($account);
 
-        if (! $model) {
+        if (!$model) {
             return static::findAccount($account->id);
         }
 
@@ -53,7 +53,7 @@ class ModelRepository
     {
         $model = static::findFromStripeObject($customer);
 
-        if (! $model) {
+        if (!$model) {
             return static::findCustomer($customer->id);
         }
 
@@ -75,7 +75,7 @@ class ModelRepository
         $model_type = data_get($object->metadata, 'model_type');
         $model_id = data_get($object->metadata, 'model_id');
 
-        if (! $model_type || ! $model_id) {
+        if (!$model_type || !$model_id) {
             return null;
         }
 

@@ -1,8 +1,8 @@
 <?php
 
-namespace Elegant\Stripe;
+namespace Elegantly\Stripe;
 
-use Elegant\Stripe\Commands\CreateStripeWebhooksCommand;
+use Elegantly\Stripe\Commands\CreateStripeWebhooksCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 

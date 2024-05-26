@@ -1,8 +1,8 @@
 <?php
 
-namespace Elegant\Stripe\Listeners;
+namespace Elegantly\Stripe\Listeners;
 
-use Elegant\Stripe\Traits\ListenAccountEvents;
+use Elegantly\Stripe\Traits\ListenAccountEvents;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Facades\Cache;
 use Spatie\WebhookClient\Models\WebhookCall;
@@ -26,13 +26,13 @@ class AccountUpdated implements ShouldQueue
     {
         $account = $this->getStripeAccountFromEvent($event);
 
-        if (! $account) {
+        if (!$account) {
             return;
         }
 
         $model = $this->getModelFromAccount($account);
 
-        if (! $model) {
+        if (!$model) {
             return;
         }
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Elegant\Stripe\Database\Factories;
+namespace Elegantly\Stripe\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 

@@ -1,8 +1,8 @@
 <?php
 
-namespace Elegant\Stripe;
+namespace Elegantly\Stripe;
 
-use Elegant\Stripe\Facades\Stripe;
+use Elegantly\Stripe\Facades\Stripe;
 use Illuminate\Support\Facades\Cache;
 
 /**

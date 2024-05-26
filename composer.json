@@ -1,8 +1,8 @@
 {
-    "name": "elegant/laravel-stripe",
+    "name": "elegantly/laravel-stripe",
     "description": "Stripe and Stripe Connect for your Laravel App",
     "keywords": [
-        "Elegant",
+        "Elegantly",
         "laravel",
         "laravel-stripe"
     ],
@@ -36,13 +36,13 @@
     },
     "autoload": {
         "psr-4": {
-            "Elegant\\Stripe\\": "src/",
-            "Elegant\\Stripe\\Database\\Factories\\": "database/factories/"
+            "Elegantly\\Stripe\\": "src/",
+            "Elegantly\\Stripe\\Database\\Factories\\": "database/factories/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Elegant\\Stripe\\Tests\\": "tests/",
+            "Elegantly\\Stripe\\Tests\\": "tests/",
             "Workbench\\App\\": "workbench/app/"
         }
     },
@@ -74,10 +74,10 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Elegant\\Stripe\\StripeServiceProvider"
+                "Elegantly\\Stripe\\StripeServiceProvider"
             ],
             "aliases": {
-                "Stripe": "Elegant\\Stripe\\Facades\\Stripe"
+                "Stripe": "Elegantly\\Stripe\\Facades\\Stripe"
             }
         }
     },

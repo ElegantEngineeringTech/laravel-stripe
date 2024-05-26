@@ -1,8 +1,8 @@
 <?php
 
-namespace Elegant\Stripe\Traits;
+namespace Elegantly\Stripe\Traits;
 
-use Elegant\Stripe\ModelRepository;
+use Elegantly\Stripe\ModelRepository;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\WebhookClient\Models\WebhookCall;
 use Stripe\Application;
@@ -26,7 +26,7 @@ trait ListenAccountApplicationEvents
     {
         $stripeEvent = $this->getStripeEvent($event);
 
-        if (! $stripeEvent?->account) {
+        if (!$stripeEvent?->account) {
             return null;
         }
 

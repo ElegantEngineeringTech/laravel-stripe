@@ -1,8 +1,8 @@
 <?php
 
-namespace Elegant\Stripe\Listeners;
+namespace Elegantly\Stripe\Listeners;
 
-use Elegant\Stripe\Traits\ListenAccountApplicationEvents;
+use Elegantly\Stripe\Traits\ListenAccountApplicationEvents;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Spatie\WebhookClient\Models\WebhookCall;
 
@@ -25,7 +25,7 @@ class AccountApplicationDeauthorized implements ShouldQueue
     {
         $model = $this->getModelFromEvent($event);
 
-        if (! $model) {
+        if (!$model) {
             return;
         }
 

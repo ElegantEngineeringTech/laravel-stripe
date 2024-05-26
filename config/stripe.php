@@ -1,7 +1,7 @@
 <?php
 
-use Elegant\Stripe\Commands\CreateStripeWebhooksCommand;
-use Elegant\Stripe\ModelRepository;
+use Elegantly\Stripe\Commands\CreateStripeWebhooksCommand;
+use Elegantly\Stripe\ModelRepository;
 
 return [
 
