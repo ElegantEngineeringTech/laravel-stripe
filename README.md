@@ -79,6 +79,22 @@ return [
 
 ```
 
+## Example
+
+Creating and retreiving Stripe Account:
+
+```php
+$user->createStripeAccount();
+$user->getStripeAccount();
+```
+
+Creating and retreiving Stripe Customer:
+
+```php
+$user->createStripeCustomer();
+$user->getStripeCustomer();
+```
+
 ## Prepare your model
 
 ### Setup your database
@@ -99,13 +115,68 @@ class Organization extends Model
 }
 ```
 
-## Configure Webhooks
+## Configuring Webhooks
 
-### Configure Webhooks on Stripe
+This package comes the command `stripe:create-webhooks`, it will create and configure webhooks on Stripe dashboard for you.
+All you need to do is edit the webhooks and the endpoints you want to enable in the config file.
+
+### Edit your config
+
+For example you could configure two different webhooks with different routes and endpoints like so:
+
+```php
+return [
+
+    // configs ...
+
+    /**
+     * This is only used for the CreateStripeWebhooksCommand
+     * You can add more webhooks directly from your Stripe Dashboard
+     */
+    'webhooks' => [
+        [
+            'url' => '/stripe/webhook/account',
+            'connect' => false,
+            'enabled_events' => [
+                ...CreateStripeWebhooksCommand::DEFAULT_WEBHOOKS_EVENTS,
+
+                'checkout.session.expired',
+                'checkout.session.completed',
+                'checkout.session.async_payment_succeeded',
+                'checkout.session.async_payment_failed',
+            ],
+        ],
+        [
+            'url' => '/stripe/webhook/connect',
+            'connect' => true,
+            'enabled_events' => [
+                ...CreateStripeWebhooksCommand::DEFAULT_WEBHOOKS_EVENTS,
+            ],
+        ],
+    ],
+
+];
+```
+
+### Run the command
+
+Now that you are happy with the configs , you just have to run:
+
+```bash
+php artisan stripe:create-webhooks
+```
+
+### Activate the webhooks from Stripe
+
+All the webhooks configured by this command are disabled by default to prevent unexpected behaviour. When you are ready, just activate them from your Stripe Dashboard.
+
+### Listen to Stripe events in your App
+
+Now that Stripe actually send webhooks to your app, you can listen to them from `EventServiceProvider`.
 
 This package rely on the great `spatie/laravel-stripe-webhooks` package.
 
-You must [follow their documentation](https://github.com/spatie/laravel-stripe-webhooks) to setup webhooks.
+You must [follow their documentation](https://github.com/spatie/laravel-stripe-webhooks) to setup your listeners.
 
 ## Testing
 
