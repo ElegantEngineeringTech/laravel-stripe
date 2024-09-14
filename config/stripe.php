@@ -24,7 +24,16 @@ return [
 
     'secret' => env('STRIPE_SECRET'),
 
-    'version' => env('STRIPE_VERSION', '2024-04-10'),
+    /*
+    |--------------------------------------------------------------------------
+    | Stripe API version
+    |--------------------------------------------------------------------------
+    |
+    | Leave to null to use the latest API version.
+    | To change version of your webhooks, you will have to manually re-create them
+    |
+    */
+    'version' => env('STRIPE_VERSION'),
 
     /**
      * This is only used for the CreateStripeWebhooksCommand
