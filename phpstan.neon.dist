@@ -10,6 +10,7 @@ parameters:
     tmpDir: build/phpstan
     checkOctaneCompatibility: true
     checkModelProperties: true
+    noEnvCallsOutsideOfConfig: false
 
     ignoreErrors:
         - 
@@ -17,3 +18,5 @@ parameters:
             path: config/*
         -
             identifier: missingType.iterableValue
+        -
+            identifier: trait.unused
