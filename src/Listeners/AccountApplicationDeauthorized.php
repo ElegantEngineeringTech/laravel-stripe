@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Elegantly\Stripe\Listeners;
 
 use Elegantly\Stripe\Traits\ListenAccountApplicationEvents;

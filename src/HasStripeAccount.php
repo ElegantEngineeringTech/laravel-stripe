@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Elegantly\Stripe;
 
 use Elegantly\Stripe\Facades\Stripe;
@@ -62,9 +64,10 @@ trait HasStripeAccount
         $this->importFromStripeAccount($account);
 
         if ($this->shouldCacheStripeAccount()) {
-            Cache::forever(
-                $this->stripeAccountCacheKey(),
-                $account
+            Cache::put(
+                key: $this->stripeAccountCacheKey(),
+                value: $account,
+                ttl: now()->addDay()
             );
         }
 
@@ -78,9 +81,10 @@ trait HasStripeAccount
         }
 
         if ($this->shouldCacheStripeAccount()) {
-            return Cache::rememberForever(
-                $this->stripeAccountCacheKey(),
-                fn () => $this->getFreshStripeAccount($params, $opts)
+            return Cache::remember(
+                key: $this->stripeAccountCacheKey(),
+                ttl: now()->addDay(),
+                callback: fn () => $this->getFreshStripeAccount($params, $opts)
             );
         }
 
@@ -110,9 +114,10 @@ trait HasStripeAccount
         $this->importFromStripeAccount($account);
 
         if ($this->shouldCacheStripeAccount()) {
-            Cache::forever(
-                $this->stripeAccountCacheKey(),
-                $account
+            Cache::put(
+                key: $this->stripeAccountCacheKey(),
+                value: $account,
+                ttl: now()->addDay()
             );
         }
 

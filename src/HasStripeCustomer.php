@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Elegantly\Stripe;
 
 use Elegantly\Stripe\Facades\Stripe;
@@ -62,9 +64,10 @@ trait HasStripeCustomer
         $this->importFromStripeCustomer($customer);
 
         if ($this->shouldCacheStripeCustomer()) {
-            Cache::forever(
-                $this->stripeCustomerCacheKey(),
-                $customer
+            Cache::put(
+                key: $this->stripeCustomerCacheKey(),
+                value: $customer,
+                ttl: now()->addDay(),
             );
         }
 
@@ -78,9 +81,10 @@ trait HasStripeCustomer
         }
 
         if ($this->shouldCacheStripeCustomer()) {
-            return Cache::rememberForever(
-                $this->stripeCustomerCacheKey(),
-                fn () => $this->getFreshStripeCustomer($params, $opts)
+            return Cache::remember(
+                key: $this->stripeCustomerCacheKey(),
+                ttl: now()->addDay(),
+                callback: fn () => $this->getFreshStripeCustomer($params, $opts)
             );
         }
 
@@ -110,9 +114,10 @@ trait HasStripeCustomer
         $this->importFromStripeCustomer($customer);
 
         if ($this->shouldCacheStripeCustomer()) {
-            Cache::forever(
-                $this->stripeCustomerCacheKey(),
-                $customer
+            Cache::put(
+                key: $this->stripeCustomerCacheKey(),
+                value: $customer,
+                ttl: now()->addDay()
             );
         }
 

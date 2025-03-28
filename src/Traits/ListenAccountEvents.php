@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Elegantly\Stripe\Traits;
 
 use Elegantly\Stripe\ModelRepository;

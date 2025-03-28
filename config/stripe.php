@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use Elegantly\Stripe\Commands\CreateStripeWebhooksCommand;
 use Elegantly\Stripe\ModelRepository;
 
