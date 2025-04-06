@@ -24,17 +24,19 @@ class CreateStripeWebhooksCommand extends Command
     {
         $stripe = Stripe::client();
 
-        /** @var array $webhooks */
+        /**
+         * @var array<int, array{api_version?: string, connect?: bool, description?: null|string, enabled_events: string[], expand?: string[], metadata?: null|\Stripe\StripeObject, url: string}> $webhooks
+         */
         $webhooks = config('stripe.webhooks');
 
         foreach ($webhooks as $webhook) {
             $stripeWebhook = $stripe->webhookEndpoints->create(array_filter([
-                'enabled_events' => data_get($webhook, 'enabled_events'),
-                'url' => url(data_get($webhook, 'url')),
-                'api_version' => data_get($webhook, 'api_version'),
-                'connect' => data_get($webhook, 'connect'),
-                'description' => data_get($webhook, 'description', 'Created with elegantly/laravel-stripe'),
-            ]));
+                'enabled_events' => $webhook['enabled_events'],
+                'url' => url($webhook['url']),
+                'api_version' => $webhook['api_version'] ?? null,
+                'connect' => $webhook['connect'] ?? null,
+                'description' => $webhook['description'] ?? 'Created with elegantly/laravel-stripe',
+            ], fn ($item) => $item !== null));
 
             $stripe->webhookEndpoints->update($stripeWebhook->id, [
                 'disabled' => true,
