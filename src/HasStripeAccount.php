@@ -6,13 +6,20 @@ namespace Elegantly\Stripe;
 
 use Elegantly\Stripe\Facades\Stripe;
 use Illuminate\Support\Facades\Cache;
+use Stripe\Account;
+use Stripe\AccountLink;
+use Stripe\Capability;
+use Stripe\LoginLink;
+use Stripe\Payout;
+use Stripe\StripeClient;
+use Stripe\Transfer;
 
 /**
  * @property ?string $stripe_account_id
  */
 trait HasStripeAccount
 {
-    public function stripe(): \Stripe\StripeClient
+    public function stripe(): StripeClient
     {
         return Stripe::client();
     }
@@ -46,7 +53,7 @@ trait HasStripeAccount
         return $this;
     }
 
-    public function createStripeAccount(?array $params = [], $opts = null): \Stripe\Account
+    public function createStripeAccount(?array $params = [], $opts = null): Account
     {
         if ($this->stripe_account_id) {
             throw new Exception('['.get_class($this).':'.$this->getKey()."] Can't create, Stripe account already exists ({$this->stripe_account_id})");
@@ -74,7 +81,7 @@ trait HasStripeAccount
         return $account;
     }
 
-    public function getStripeAccount(?array $params = [], $opts = null): ?\Stripe\Account
+    public function getStripeAccount(?array $params = [], $opts = null): ?Account
     {
         if (! $this->stripe_account_id) {
             return null;
@@ -91,7 +98,7 @@ trait HasStripeAccount
         return $this->getFreshStripeAccount($params, $opts);
     }
 
-    public function getFreshStripeAccount(?array $params = [], $opts = null): ?\Stripe\Account
+    public function getFreshStripeAccount(?array $params = [], $opts = null): ?Account
     {
         if (! $this->stripe_account_id) {
             return null;
@@ -103,7 +110,7 @@ trait HasStripeAccount
         return $account;
     }
 
-    public function updateStripeAccount(?array $params = null, $opts = null): \Stripe\Account
+    public function updateStripeAccount(?array $params = null, $opts = null): Account
     {
         if (! $this->stripe_account_id) {
             throw StripeAccountDoesntExistExecption::make($this, 'update acount');
@@ -124,7 +131,7 @@ trait HasStripeAccount
         return $account;
     }
 
-    public function updateStripeAccountCapability(string $capabilityId, ?array $params = [], $opts = null): \Stripe\Capability
+    public function updateStripeAccountCapability(string $capabilityId, ?array $params = [], $opts = null): Capability
     {
         if (! $this->stripe_account_id) {
             throw StripeAccountDoesntExistExecption::make($this, 'update account capability');
@@ -142,7 +149,7 @@ trait HasStripeAccount
         return $capability;
     }
 
-    public function deleteStripeAccount(?array $params = null, $opts = null): ?\Stripe\Account
+    public function deleteStripeAccount(?array $params = null, $opts = null): ?Account
     {
         if (! $this->stripe_account_id) {
             throw StripeAccountDoesntExistExecption::make($this, 'delete acount');
@@ -157,7 +164,7 @@ trait HasStripeAccount
         return $account;
     }
 
-    public function createStripeLoginLink(?array $params = [], $opts = null): \Stripe\LoginLink
+    public function createStripeLoginLink(?array $params = [], $opts = null): LoginLink
     {
         if (! $this->stripe_account_id) {
             throw StripeAccountDoesntExistExecption::make($this, 'create login link');
@@ -166,7 +173,7 @@ trait HasStripeAccount
         return $this->stripe()->accounts->createLoginLink($this->stripe_account_id, $params, $opts);
     }
 
-    public function createStripeAccountLink(?array $params = [], $opts = null): \Stripe\AccountLink
+    public function createStripeAccountLink(?array $params = [], $opts = null): AccountLink
     {
         if (! $this->stripe_account_id) {
             throw StripeAccountDoesntExistExecption::make($this, 'create account link');
@@ -181,7 +188,7 @@ trait HasStripeAccount
         );
     }
 
-    public function payoutStripeAccount(?array $params = [], $opts = []): \Stripe\Payout
+    public function payoutStripeAccount(?array $params = [], $opts = []): Payout
     {
         if (! $this->stripe_account_id) {
             throw StripeAccountDoesntExistExecption::make($this, 'payout');
@@ -193,7 +200,7 @@ trait HasStripeAccount
         ]);
     }
 
-    public function createStripeAccountTransfer(?array $params = [], $opts = []): \Stripe\Transfer
+    public function createStripeAccountTransfer(?array $params = [], $opts = []): Transfer
     {
         if (! $this->stripe_account_id) {
             throw StripeAccountDoesntExistExecption::make($this, 'transfer');
@@ -205,7 +212,7 @@ trait HasStripeAccount
         ], $opts);
     }
 
-    public function importFromStripeAccount(?\Stripe\Account $account): static
+    public function importFromStripeAccount(?Account $account): static
     {
         $this->stripe_account_id = $account?->id;
 

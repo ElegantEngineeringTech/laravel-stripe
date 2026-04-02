@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Models\User;
 use Elegantly\Stripe\Commands\CreateStripeWebhooksCommand;
 use Elegantly\Stripe\ModelRepository;
 
@@ -9,10 +10,10 @@ return [
 
     'models' => [
         'accounts' => [
-            \App\Models\User::class,
+            User::class,
         ],
         'customers' => [
-            \App\Models\User::class,
+            User::class,
         ],
         'repository' => ModelRepository::class,
     ],
