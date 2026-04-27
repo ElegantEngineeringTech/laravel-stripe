@@ -32,8 +32,6 @@ class AccountApplicationDeauthorized implements ShouldQueue
         }
 
         // @phpstan-ignore-next-line
-        $model
-            ->importFromStripeAccount(null)
-            ->forgetStripeAccount();
+        $model->importFromStripeAccount(null);
     }
 }

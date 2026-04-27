@@ -5,9 +5,10 @@ declare(strict_types=1);
 namespace Elegantly\Stripe;
 
 use Elegantly\Stripe\Facades\Stripe;
-use Illuminate\Support\Facades\Cache;
+use Exception;
 use Stripe\Account;
 use Stripe\AccountLink;
+use Stripe\AccountSession;
 use Stripe\Capability;
 use Stripe\LoginLink;
 use Stripe\Payout;
@@ -29,30 +30,6 @@ trait HasStripeAccount
         return (bool) $this->stripe_account_id;
     }
 
-    public function shouldCacheStripeAccount(): bool
-    {
-        return (bool) config('stripe.cache.accounts', false);
-    }
-
-    public function stripeAccountCacheKey(): string
-    {
-        return get_class($this).':'.$this->getKey().':'.'stripe:account';
-    }
-
-    public function cacheStripeAccount(?array $params = [], $opts = null): static
-    {
-        $this->forgetStripeAccount()->getStripeAccount($params, $opts);
-
-        return $this;
-    }
-
-    public function forgetStripeAccount(): static
-    {
-        Cache::forget($this->stripeAccountCacheKey());
-
-        return $this;
-    }
-
     public function createStripeAccount(?array $params = [], $opts = null): Account
     {
         if ($this->stripe_account_id) {
@@ -70,35 +47,10 @@ trait HasStripeAccount
 
         $this->importFromStripeAccount($account);
 
-        if ($this->shouldCacheStripeAccount()) {
-            Cache::put(
-                key: $this->stripeAccountCacheKey(),
-                value: $account,
-                ttl: now()->addDay()
-            );
-        }
-
         return $account;
     }
 
     public function getStripeAccount(?array $params = [], $opts = null): ?Account
-    {
-        if (! $this->stripe_account_id) {
-            return null;
-        }
-
-        if ($this->shouldCacheStripeAccount()) {
-            return Cache::remember(
-                key: $this->stripeAccountCacheKey(),
-                ttl: now()->addDay(),
-                callback: fn () => $this->getFreshStripeAccount($params, $opts)
-            );
-        }
-
-        return $this->getFreshStripeAccount($params, $opts);
-    }
-
-    public function getFreshStripeAccount(?array $params = [], $opts = null): ?Account
     {
         if (! $this->stripe_account_id) {
             return null;
@@ -120,15 +72,23 @@ trait HasStripeAccount
 
         $this->importFromStripeAccount($account);
 
-        if ($this->shouldCacheStripeAccount()) {
-            Cache::put(
-                key: $this->stripeAccountCacheKey(),
-                value: $account,
-                ttl: now()->addDay()
-            );
+        return $account;
+    }
+
+    public function updateStripeAccountTaxSettings(?array $params = null, $opts = null)
+    {
+
+        if (! $this->stripe_account_id) {
+            throw StripeAccountDoesntExistExecption::make($this, 'update acount');
         }
 
-        return $account;
+        $settings = $this->stripe()->tax->settings->update(
+            $params,
+            [...$opts, 'stripe_account' => $this->stripe_account_id]
+        );
+
+        return $settings;
+
     }
 
     public function updateStripeAccountCapability(string $capabilityId, ?array $params = [], $opts = null): Capability
@@ -144,8 +104,6 @@ trait HasStripeAccount
             $opts
         );
 
-        $this->forgetStripeAccount();
-
         return $capability;
     }
 
@@ -158,8 +116,6 @@ trait HasStripeAccount
         $account = $this->stripe()->accounts->delete($this->stripe_account_id, $params, $opts);
 
         $this->importFromStripeAccount(null);
-
-        $this->forgetStripeAccount();
 
         return $account;
     }
@@ -188,16 +144,31 @@ trait HasStripeAccount
         );
     }
 
+    public function createStripeAccountSession(?array $params = [], $opts = null): AccountSession
+    {
+        if (! $this->stripe_account_id) {
+            throw StripeAccountDoesntExistExecption::make($this, 'create account session');
+        }
+
+        return $this->stripe()->accountSessions->create(
+            [
+                ...$params,
+                'account' => $this->stripe_account_id,
+            ],
+            $opts
+        );
+    }
+
     public function payoutStripeAccount(?array $params = [], $opts = []): Payout
     {
         if (! $this->stripe_account_id) {
             throw StripeAccountDoesntExistExecption::make($this, 'payout');
         }
 
-        return $this->stripe()->payouts->create($params, [
-            ...$opts,
-            'stripe_account' => $this->stripe_account_id,
-        ]);
+        return $this->stripe()->payouts->create(
+            $params,
+            [...$opts, 'stripe_account' => $this->stripe_account_id]
+        );
     }
 
     public function createStripeAccountTransfer(?array $params = [], $opts = []): Transfer

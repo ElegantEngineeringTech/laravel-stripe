@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Elegantly\Stripe;
 
 use Elegantly\Stripe\Facades\Stripe;
+use Exception;
 use Illuminate\Support\Facades\Cache;
 use Stripe\Checkout\Session;
 use Stripe\Customer;
