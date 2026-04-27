@@ -75,7 +75,7 @@ trait HasStripeAccount
         return $account;
     }
 
-    public function updateStripeAccountTaxSettings(?array $params = null, $opts = null)
+    public function updateStripeAccountTaxSettings(?array $params = null, $opts = [])
     {
 
         if (! $this->stripe_account_id) {
