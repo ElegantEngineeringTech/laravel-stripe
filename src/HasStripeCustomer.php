@@ -6,7 +6,6 @@ namespace Elegantly\Stripe;
 
 use Elegantly\Stripe\Facades\Stripe;
 use Exception;
-use Illuminate\Support\Facades\Cache;
 use Stripe\Checkout\Session;
 use Stripe\Customer;
 use Stripe\StripeClient;
@@ -26,30 +25,6 @@ trait HasStripeCustomer
         return (bool) $this->stripe_customer_id;
     }
 
-    public function shouldCacheStripeCustomer(): bool
-    {
-        return (bool) config('stripe.cache.customers', false);
-    }
-
-    public function stripeCustomerCacheKey(): string
-    {
-        return get_class($this).':'.$this->getKey().':'.'stripe:customer';
-    }
-
-    public function cacheStripeCustomer(?array $params = [], $opts = null): static
-    {
-        $this->forgetStripeCustomer()->getStripeCustomer($params, $opts);
-
-        return $this;
-    }
-
-    public function forgetStripeCustomer(): static
-    {
-        Cache::forget($this->stripeCustomerCacheKey());
-
-        return $this;
-    }
-
     public function createStripeCustomer(?array $params = [], $opts = null): Customer
     {
         if ($this->stripe_customer_id) {
@@ -67,14 +42,6 @@ trait HasStripeCustomer
 
         $this->importFromStripeCustomer($customer);
 
-        if ($this->shouldCacheStripeCustomer()) {
-            Cache::put(
-                key: $this->stripeCustomerCacheKey(),
-                value: $customer,
-                ttl: now()->addDay(),
-            );
-        }
-
         return $customer;
     }
 
@@ -82,14 +49,6 @@ trait HasStripeCustomer
     {
         if (! $this->stripe_customer_id) {
             return null;
-        }
-
-        if ($this->shouldCacheStripeCustomer()) {
-            return Cache::remember(
-                key: $this->stripeCustomerCacheKey(),
-                ttl: now()->addDay(),
-                callback: fn () => $this->getFreshStripeCustomer($params, $opts)
-            );
         }
 
         return $this->getFreshStripeCustomer($params, $opts);
@@ -117,14 +76,6 @@ trait HasStripeCustomer
 
         $this->importFromStripeCustomer($customer);
 
-        if ($this->shouldCacheStripeCustomer()) {
-            Cache::put(
-                key: $this->stripeCustomerCacheKey(),
-                value: $customer,
-                ttl: now()->addDay()
-            );
-        }
-
         return $customer;
     }
 
@@ -137,8 +88,6 @@ trait HasStripeCustomer
         $customer = $this->stripe()->customers->delete($this->stripe_customer_id, $params, $opts);
 
         $this->importFromStripeCustomer(null);
-
-        $this->forgetStripeCustomer();
 
         return $customer;
     }

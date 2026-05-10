@@ -1,9 +1,10 @@
 # Stripe and Stripe Connect Integration for Your Laravel Application
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/elegantly/laravel-stripe.svg?style=flat-square)](https://packagist.org/packages/elegantly/laravel-stripe)
-[![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/ElegantEngineeringTech/laravel-stripe/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/ElegantEngineeringTech/laravel-stripe/actions?query=workflow%3Arun-tests+branch%3Amain)
-[![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/ElegantEngineeringTech/laravel-stripe/fix-php-code-style-issues.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/ElegantEngineeringTech/laravel-stripe/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amain)
-[![Total Downloads](https://img.shields.io/packagist/dt/elegantly/laravel-stripe.svg?style=flat-square)](https://packagist.org/packages/elegantly/laravel-stripe)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/elegantly/laravel-stripe.svg)](https://packagist.org/packages/elegantly/laravel-stripe)
+[![Total Downloads](https://img.shields.io/packagist/dt/elegantly/laravel-stripe.svg)](https://packagist.org/packages/elegantly/laravel-stripe)
+[![Tests](https://github.com/ElegantEngineeringTech/laravel-stripe/actions/workflows/run-tests.yml/badge.svg)](https://github.com/ElegantEngineeringTech/laravel-stripe/actions/workflows/run-tests.yml)
+[![Laravel Pint](https://github.com/ElegantEngineeringTech/laravel-stripe/actions/workflows/pint.yml/badge.svg)](https://github.com/ElegantEngineeringTech/laravel-stripe/actions/workflows/pint.yml)
+[![PHPStan](https://github.com/ElegantEngineeringTech/laravel-stripe/actions/workflows/phpstan.yml/badge.svg)](https://github.com/ElegantEngineeringTech/laravel-stripe/actions/workflows/phpstan.yml)
 
 A simple way to attach Stripe Customer and Account to your Model in Laravel.
 
@@ -27,6 +28,7 @@ php artisan vendor:publish --tag="stripe-config"
 This is the content of the published configuration file:
 
 ```php
+use App\Models\User;
 use Elegantly\Stripe\Commands\CreateStripeWebhooksCommand;
 use Elegantly\Stripe\ModelRepository;
 
@@ -34,28 +36,31 @@ return [
 
     'models' => [
         'accounts' => [
-            \App\Models\User::class,
+            User::class,
         ],
         'customers' => [
-            \App\Models\User::class,
+            User::class,
         ],
         'repository' => ModelRepository::class,
-    ],
-
-    'cache' => [
-        'accounts' => true,
-        'customers' => false,
     ],
 
     'key' => env('STRIPE_KEY'),
 
     'secret' => env('STRIPE_SECRET'),
 
+    /*
+    |--------------------------------------------------------------------------
+    | Stripe API version
+    |--------------------------------------------------------------------------
+    |
+    | Leave to null to use the latest API version.
+    |
+    */
     'version' => env('STRIPE_VERSION'),
 
     /**
-     * This is only used for the CreateStripeWebhooksCommand.
-     * You can add more webhooks directly from your Stripe Dashboard.
+     * This is only used for the CreateStripeWebhooksCommand
+     * You can add more webhooks directly from your Stripe Dashboard
      */
     'webhooks' => [
         [
@@ -68,6 +73,7 @@ return [
     ],
 
 ];
+
 ```
 
 ## Usage Examples

@@ -18,11 +18,6 @@ return [
         'repository' => ModelRepository::class,
     ],
 
-    'cache' => [
-        'accounts' => true,
-        'customers' => false,
-    ],
-
     'key' => env('STRIPE_KEY'),
 
     'secret' => env('STRIPE_SECRET'),
@@ -33,7 +28,6 @@ return [
     |--------------------------------------------------------------------------
     |
     | Leave to null to use the latest API version.
-    | To change version of your webhooks, you will have to manually re-create them
     |
     */
     'version' => env('STRIPE_VERSION'),

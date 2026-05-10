@@ -6,7 +6,6 @@ namespace Elegantly\Stripe\Listeners;
 
 use Elegantly\Stripe\Traits\ListenCustomerEvents;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Support\Facades\Cache;
 use Spatie\WebhookClient\Models\WebhookCall;
 
 /**
@@ -39,11 +38,5 @@ class CustomerUpdated implements ShouldQueue
 
         $model->importFromStripeCustomer($customer); // @phpstan-ignore-line
 
-        if ($model->shouldCacheStripeCustomer()) { // @phpstan-ignore-line
-            Cache::forever(
-                $model->stripeCustomerCacheKey(), // @phpstan-ignore-line
-                $customer
-            );
-        }
     }
 }
