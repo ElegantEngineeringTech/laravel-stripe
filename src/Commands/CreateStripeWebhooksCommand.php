@@ -6,7 +6,6 @@ namespace Elegantly\Stripe\Commands;
 
 use Elegantly\Stripe\Facades\Stripe;
 use Illuminate\Console\Command;
-use Stripe\StripeObject;
 
 class CreateStripeWebhooksCommand extends Command
 {
@@ -26,7 +25,7 @@ class CreateStripeWebhooksCommand extends Command
         $stripe = Stripe::client();
 
         /**
-         * @var array<int, array{api_version?: string, connect?: bool, description?: null|string, enabled_events: string[], expand?: string[], metadata?: null|StripeObject, url: string}> $webhooks
+         * @var array<array-key, array{api_version?: string, connect?: bool, description?: null|string, enabled_events: string[], metadata?: null|array<string, string>, url: string}> $webhooks
          */
         $webhooks = config('stripe.webhooks');
 
