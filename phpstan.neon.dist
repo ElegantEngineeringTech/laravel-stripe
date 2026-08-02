@@ -17,6 +17,4 @@ parameters:
             message: '#Class App\\Models\\User not found.#'
             path: config/*
         -
-            identifier: missingType.iterableValue
-        -
             identifier: trait.unused

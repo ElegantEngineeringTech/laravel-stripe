@@ -6,6 +6,7 @@
 [![Laravel Pint](https://github.com/ElegantEngineeringTech/laravel-stripe/actions/workflows/pint.yml/badge.svg)](https://github.com/ElegantEngineeringTech/laravel-stripe/actions/workflows/pint.yml)
 [![PHPStan](https://github.com/ElegantEngineeringTech/laravel-stripe/actions/workflows/phpstan.yml/badge.svg)](https://github.com/ElegantEngineeringTech/laravel-stripe/actions/workflows/phpstan.yml)
 
+
 A simple way to attach Stripe Customer and Account to your Model in Laravel.
 
 -   Stripe webhooks ready to use out of the box
@@ -35,13 +36,14 @@ use Elegantly\Stripe\ModelRepository;
 return [
 
     'models' => [
+        'repository' => ModelRepository::class,
+
         'accounts' => [
-            User::class,
+            User::class => 'stripe_account_id',
         ],
         'customers' => [
-            User::class,
+            User::class => 'stripe_customer_id',
         ],
-        'repository' => ModelRepository::class,
     ],
 
     'key' => env('STRIPE_KEY'),

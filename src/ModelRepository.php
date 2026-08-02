@@ -81,6 +81,9 @@ class ModelRepository
         return $model_type::find($model_id);
     }
 
+    /**
+     * @param  array<class-string<Model>, string>  $models
+     */
     protected static function findFromModels(
         array $models,
         string $stripeId
