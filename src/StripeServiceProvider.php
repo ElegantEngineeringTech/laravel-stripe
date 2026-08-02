@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Elegantly\Stripe;
 
 use Elegantly\Stripe\Commands\CreateStripeWebhooksCommand;
-use Elegantly\Stripe\Listeners\AccountApplicationDeauthorized;
-use Elegantly\Stripe\Listeners\AccountUpdated;
-use Elegantly\Stripe\Listeners\CustomerDeleted;
-use Elegantly\Stripe\Listeners\CustomerUpdated;
+use Elegantly\Stripe\Listeners\Account\AccountApplicationDeauthorized;
+use Elegantly\Stripe\Listeners\Account\AccountUpdated;
+use Elegantly\Stripe\Listeners\Customer\CustomerDeleted;
+use Elegantly\Stripe\Listeners\Customer\CustomerUpdated;
 use Illuminate\Support\Facades\Event;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;

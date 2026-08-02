@@ -2,9 +2,8 @@
 
 declare(strict_types=1);
 
-namespace Elegantly\Stripe\Listeners;
+namespace Elegantly\Stripe\Listeners\Customer;
 
-use Elegantly\Stripe\Traits\ListenCustomerEvents;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Spatie\WebhookClient\Models\WebhookCall;
 
@@ -13,24 +12,17 @@ use Spatie\WebhookClient\Models\WebhookCall;
  *
  * Occurs whenever a customer is deleted.
  */
-class CustomerDeleted implements ShouldQueue
+class CustomerDeleted extends AbstractCustomerListener implements ShouldQueue
 {
-    use ListenCustomerEvents;
-
-    public function __construct()
-    {
-        //
-    }
-
     public function handle(WebhookCall $event): void
     {
-        $customer = $this->getStripeCustomerFromEvent($event);
+        $customer = $this->getStripeCustomer($event);
 
         if (! $customer) {
             return;
         }
 
-        $model = $this->getModelFromCustomer($customer);
+        $model = $this->getCustomerModel($customer);
 
         if (! $model) {
             return;

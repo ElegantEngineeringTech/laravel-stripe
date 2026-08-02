@@ -2,9 +2,8 @@
 
 declare(strict_types=1);
 
-namespace Elegantly\Stripe\Listeners;
+namespace Elegantly\Stripe\Listeners\Account;
 
-use Elegantly\Stripe\Traits\ListenAccountEvents;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Spatie\WebhookClient\Models\WebhookCall;
 
@@ -14,24 +13,17 @@ use Spatie\WebhookClient\Models\WebhookCall;
  * Allows you to monitor changes to connected account requirements and status changes.
  * Available for Standard, Express, and Custom accounts.
  */
-class AccountUpdated implements ShouldQueue
+class AccountUpdated extends AbstractAccountListener implements ShouldQueue
 {
-    use ListenAccountEvents;
-
-    public function __construct()
-    {
-        //
-    }
-
     public function handle(WebhookCall $event): void
     {
-        $account = $this->getStripeAccountFromEvent($event);
+        $account = $this->getStripeAccount($event);
 
         if (! $account) {
             return;
         }
 
-        $model = $this->getModelFromAccount($account);
+        $model = $this->getAccountModel($account);
 
         if (! $model) {
             return;

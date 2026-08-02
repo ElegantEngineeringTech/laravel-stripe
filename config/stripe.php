@@ -9,13 +9,14 @@ use Elegantly\Stripe\ModelRepository;
 return [
 
     'models' => [
+        'repository' => ModelRepository::class,
+
         'accounts' => [
-            User::class,
+            User::class => 'stripe_account_id',
         ],
         'customers' => [
-            User::class,
+            User::class => 'stripe_customer_id',
         ],
-        'repository' => ModelRepository::class,
     ],
 
     'key' => env('STRIPE_KEY'),

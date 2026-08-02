@@ -2,9 +2,8 @@
 
 declare(strict_types=1);
 
-namespace Elegantly\Stripe\Listeners;
+namespace Elegantly\Stripe\Listeners\Customer;
 
-use Elegantly\Stripe\Traits\ListenCustomerEvents;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Spatie\WebhookClient\Models\WebhookCall;
 
@@ -13,10 +12,8 @@ use Spatie\WebhookClient\Models\WebhookCall;
  *
  * Occurs whenever any property of a customer changes.
  */
-class CustomerUpdated implements ShouldQueue
+class CustomerUpdated extends AbstractCustomerListener implements ShouldQueue
 {
-    use ListenCustomerEvents;
-
     public function __construct()
     {
         //
@@ -24,13 +21,13 @@ class CustomerUpdated implements ShouldQueue
 
     public function handle(WebhookCall $event): void
     {
-        $customer = $this->getStripeCustomerFromEvent($event);
+        $customer = $this->getStripeCustomer($event);
 
         if (! $customer) {
             return;
         }
 
-        $model = $this->getModelFromCustomer($customer);
+        $model = $this->getCustomerModel($customer);
 
         if (! $model) {
             return;

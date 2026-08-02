@@ -6,7 +6,6 @@ namespace Elegantly\Stripe;
 
 use Exception;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Arr;
 use Stripe\Account;
 use Stripe\Customer;
 
@@ -15,8 +14,7 @@ class ModelRepository
     public static function findAccount(string $stripeAccountId): ?Model
     {
         return static::findFromModels(
-            models: Arr::wrap(config('stripe.models.accounts')),
-            columnName: 'stripe_account_id',
+            models: config('stripe.models.accounts'),
             stripeId: $stripeAccountId
         );
     }
@@ -24,8 +22,7 @@ class ModelRepository
     public static function findCustomer(string $stripeCustomerId): ?Model
     {
         return static::findFromModels(
-            models: Arr::wrap(config('stripe.models.customers')),
-            columnName: 'stripe_customer_id',
+            models: config('stripe.models.customers'),
             stripeId: $stripeCustomerId
         );
     }
@@ -86,12 +83,11 @@ class ModelRepository
 
     protected static function findFromModels(
         array $models,
-        string $columnName,
         string $stripeId
     ): ?Model {
-        foreach ($models as $model) {
+        foreach ($models as $model => $column) {
             $instance = $model::query()
-                ->where($columnName, $stripeId)
+                ->where($column, $stripeId)
                 ->first();
 
             if ($instance) {
