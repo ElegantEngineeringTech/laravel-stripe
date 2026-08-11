@@ -16,10 +16,10 @@ abstract class AbstractAccountListener extends AbstractStripeListener
         return $this->getStripeEvent($event)?->data?->object; // @phpstan-ignore-line
     }
 
-    public function getAccountModel(Account $customer): ?Model
+    public function getAccountModel(Account $account): ?Model
     {
         $repository = $this->getModelRepository();
 
-        return $repository::findAccountFromStripeObject($customer);
+        return $repository::findAccountFromStripeObject($account);
     }
 }
