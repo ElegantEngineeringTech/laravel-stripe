@@ -14,6 +14,7 @@ use Stripe\LoginLink;
 use Stripe\Payout;
 use Stripe\StripeClient;
 use Stripe\Transfer;
+use Stripe\V2\Core\Account as V2Account;
 
 /**
  * @property ?string $stripe_account_id
@@ -184,6 +185,48 @@ trait HasStripeAccount
     }
 
     public function importFromStripeAccount(?Account $account): static
+    {
+        $this->stripe_account_id = $account?->id;
+
+        $this->save();
+
+        return $this;
+    }
+
+    public function createStripeV2Account(?array $params = [], $opts = null): V2Account
+    {
+        if ($this->stripe_account_id) {
+            throw new Exception('['.get_class($this).':'.$this->getKey()."] Can't create, Stripe account already exists ({$this->stripe_account_id})");
+        }
+
+        $account = $this->stripe()->v2->core->accounts->create([
+            ...$params,
+            'metadata' => [
+                ...data_get($params, 'metadata', []),
+                'model_type' => get_class($this),
+                'model_id' => $this->getKey(),
+            ],
+        ], $opts);
+
+        $this->importFromStripeV2Account($account);
+
+        return $account;
+    }
+
+    public function getStripeV2Account(?array $params = [], $opts = null): ?V2Account
+    {
+        if (! $this->stripe_account_id) {
+            return null;
+        }
+
+        $account = $this->stripe()->v2->core->accounts->retrieve($this->stripe_account_id, $params, $opts);
+
+        $this->importFromStripeV2Account($account);
+
+        return $account;
+    }
+
+    public function importFromStripeV2Account(?V2Account $account): static
     {
         $this->stripe_account_id = $account?->id;
 
