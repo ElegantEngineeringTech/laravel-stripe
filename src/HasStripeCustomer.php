@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace Elegantly\Stripe;
 
+use Elegantly\Stripe\Exceptions\StripeCustomerAlreadyExistsException;
+use Elegantly\Stripe\Exceptions\StripeCustomerDoesntExistException;
 use Elegantly\Stripe\Facades\Stripe;
-use Exception;
 use Stripe\Checkout\Session;
 use Stripe\Customer;
 use Stripe\StripeClient;
@@ -28,7 +29,7 @@ trait HasStripeCustomer
     public function createStripeCustomer(?array $params = [], $opts = null): Customer
     {
         if ($this->stripe_customer_id) {
-            throw new Exception('['.get_class($this).':'.$this->getKey()."] Can't create, Stripe customer already exists ({$this->stripe_customer_id})");
+            throw StripeCustomerAlreadyExistsException::make($this);
         }
 
         $customer = $this->stripe()->customers->create([
@@ -36,7 +37,7 @@ trait HasStripeCustomer
             'metadata' => [
                 ...data_get($params, 'metadata', []),
                 'model_type' => get_class($this),
-                'model_id' => $this->getKey(),
+                'model_id' => (string) $this->getKey(),
             ],
         ], $opts);
 
@@ -69,7 +70,7 @@ trait HasStripeCustomer
     public function updateStripeCustomer(?array $params = null, $opts = null): Customer
     {
         if (! $this->stripe_customer_id) {
-            throw StripeCustomerDoesntExistExecption::make($this, 'update acount');
+            throw StripeCustomerDoesntExistException::make($this, 'update customer');
         }
 
         $customer = $this->stripe()->customers->update($this->stripe_customer_id, $params, $opts);
@@ -82,7 +83,7 @@ trait HasStripeCustomer
     public function deleteStripeCustomer(?array $params = null, $opts = null): ?Customer
     {
         if (! $this->stripe_customer_id) {
-            throw StripeCustomerDoesntExistExecption::make($this, 'delete acount');
+            throw StripeCustomerDoesntExistException::make($this, 'delete customer');
         }
 
         $customer = $this->stripe()->customers->delete($this->stripe_customer_id, $params, $opts);
@@ -95,7 +96,7 @@ trait HasStripeCustomer
     public function checkoutStripeCustomer(?array $params = null, $opts = null): ?Session
     {
         if (! $this->stripe_customer_id) {
-            throw StripeCustomerDoesntExistExecption::make($this, 'checkout');
+            throw StripeCustomerDoesntExistException::make($this, 'checkout');
         }
 
         return $this->stripe()->checkout->sessions->create(
@@ -110,7 +111,7 @@ trait HasStripeCustomer
     public function createStripeBillingPortalSesssion(array $params = [], $opts = null): \Stripe\BillingPortal\Session
     {
         if (! $this->stripe_customer_id) {
-            throw StripeCustomerDoesntExistExecption::make($this, 'create billing portal');
+            throw StripeCustomerDoesntExistException::make($this, 'create billing portal');
         }
 
         return $this->stripe()->billingPortal->sessions->create([
